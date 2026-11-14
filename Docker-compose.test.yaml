@@ -1,16 +1,37 @@
-version: "3"
 services:
- node:
-  container_name: test
-  build:
-   context: .
-   target: test
-  volumes: 
-   - ./sc:/Magdi/sc:ro 
-  ports: 
-   - "30:4000"
-  environment:
-   - Type=تيستتتتتتت
-   - name=test 
-  command:
-   npm run start-dev
+  node:
+    container_name: test
+    build:
+      context: .
+      target: test
+    volumes:
+      - ./sc:/app/sc:ro
+    ports:
+      - "30:4000"
+    environment:
+      - Type=تيستتتتتتت
+      - name=test
+      - PGHOST=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=password
+      - PGDATABASE=testdb
+    depends_on:
+      postgres:
+        condition: service_healthy
+    command: npm run start-dev
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: testdb
+    volumes:
+      - pgdata_test:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+volumes:
+  pgdata_test:
