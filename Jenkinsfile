@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         PROJECT = 'pro'
-        COMPOSE = 'Docker-compose.pro.yaml'
+        COMPOSE = 'Docker-compose.test.yaml'
     }
 
     stages {
