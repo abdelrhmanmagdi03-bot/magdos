@@ -9,20 +9,17 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
-                checkout scm
+                git url: 'https://github.com/abdelrhmanmagdi03-bot/magdos.git', branch: 'main'
             }
         }
         stage('pre-check') {
             steps {
-                echo "check docker and compose"
-                sh 'docker version'
-                sh 'docker compose version'
+                sh 'ls -la'
                 sh 'docker compose -p $PROJECT -f $COMPOSE config -q'
             }
         }
         stage('build-image') {
             steps {
-                echo "build and run docker compose"
                 sh 'docker compose -p $PROJECT -f $COMPOSE up --build -d'
             }
         }
@@ -35,9 +32,8 @@ pipeline {
     }
 
     post {
-        success {
-            echo "deploy ok"
-        }
         failure {
-            echo "failed, showing logs"
-            sh 'docker compose -p $PROJECT -f $COMPOSE logs
+            sh 'docker compose -p $PROJECT -f $COMPOSE logs --tail=50 || true'
+        }
+    }
+}
