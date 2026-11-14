@@ -1,14 +1,35 @@
-version: "3"
 services:
- node:
-  #container_name: pro 
-  build:
-   context: .
-   target: producation
-  #ports: 
-   #- "50:4000"
-  environment:
-   - Type=برررررروززززووو
-   - name=pro 
-  command:
-   npm run start
+  node:
+    build:
+      context: .
+      target: production
+    ports:
+      - "50:4000"
+    restart: always
+    environment:
+      - Type=برررررروززززووو
+      - name=pro
+      - PGHOST=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=password
+      - PGDATABASE=mydb
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: mydb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 5
+
+volumes:
+  pgdata:
