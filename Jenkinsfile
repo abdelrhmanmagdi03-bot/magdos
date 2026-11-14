@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        PROJECT = 'pro'
+        PROJECT = 'test'
         COMPOSE = 'Docker-compose.test.yaml'
     }
 
