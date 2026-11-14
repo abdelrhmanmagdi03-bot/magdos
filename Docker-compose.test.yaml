@@ -1,0 +1,16 @@
+version: "3"
+services:
+ node:
+  container_name: test
+  build:
+   context: .
+   target: test
+  volumes: 
+   - ./sc:/Magdi/sc:ro 
+  ports: 
+   - "30:4000"
+  environment:
+   - Type=تيستتتتتتت
+   - name=test 
+  command:
+   npm run start-dev

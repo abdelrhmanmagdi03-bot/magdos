@@ -1,0 +1,14 @@
+version: "3"
+services:
+ node:
+  #container_name: pro 
+  build:
+   context: .
+   target: producation
+  #ports: 
+   #- "50:4000"
+  environment:
+   - Type=برررررروززززووو
+   - name=pro 
+  command:
+   npm run start
